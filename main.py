@@ -55,21 +55,72 @@ def ImgToWinFromBytes(image_bytes, title="Enter Captcha") -> str:
             if self.win:
                self.win.destroy()
 
-        def move_window(self, x, y):
-            try:
-                if self.win:
-                    self.win.move(int(x), int(y))
-            except:
-                pass
-
     api = Api()
 
-    html = f""" <html> <head> <meta charset="utf-8"> <style> * {{ margin: 0; padding: 0; box-sizing: border-box; }} body {{ font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%); display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; user-select: none; }} /* Animated background particles */ body::before {{ content: ''; position: absolute; width: 200%; height: 200%; background: radial-gradient(circle, rgba(94,156,255,0.1) 1px, transparent 1px); background-size: 50px 50px; animation: drift 20s linear infinite; pointer-events: none; }} @keyframes drift {{ from {{ transform: translate(0, 0); }} to {{ transform: translate(50px, 50px); }} }} .container {{ position: relative; background: rgba(15, 15, 35, 0.7); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); padding: 35px; border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1); text-align: center; animation: slideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }} @keyframes slideIn {{ from {{ opacity: 0; transform: translateY(-30px) scale(0.9); }} to {{ opacity: 1; transform: translateY(0) scale(1); }} }} .drag-handle {{ cursor: grab; padding: 15px; margin: -35px -35px 20px -35px; border-radius: 24px 24px 0 0; }} .drag-handle:active {{ cursor: grabbing; }} .header {{ color: #fff; font-size: 18px; font-weight: 600; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); letter-spacing: 0.5px; }} .img-wrapper {{ position: relative; margin-bottom: 25px; overflow: hidden; border-radius: 16px; }} .img-wrapper::before {{ content: ''; position: absolute; inset: 0; background: linear-gradient(45deg, rgba(94,156,255,0.3) 0%, transparent 50%, rgba(156,94,255,0.3) 100%); opacity: 0; transition: opacity 0.4s; pointer-events: none; }} .img-wrapper:hover::before {{ opacity: 1; }} img {{ width: 100%; border-radius: 16px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); animation: glow 3s ease-in-out infinite; transition: transform 0.3s; }} .img-wrapper:hover img {{ transform: scale(1.02); }} @keyframes glow {{ 0%, 100% {{ filter: drop-shadow(0 0 8px rgba(94,156,255,0.4)); }} 50% {{ filter: drop-shadow(0 0 20px rgba(156,94,255,0.6)); }} }} input {{ width: 100%; padding: 15px 18px; border-radius: 12px; border: 2px solid rgba(255, 255, 255, 0.1); background: rgba(0, 0, 0, 0.3); color: #fff; font-size: 15px; margin-bottom: 18px; outline: none; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.2); }} input::placeholder {{ color: rgba(255, 255, 255, 0.4); }} input:focus {{ border-color: rgba(94, 156, 255, 0.8); background: rgba(0, 0, 0, 0.5); box-shadow: 0 0 0 4px rgba(94, 156, 255, 0.1), inset 0 2px 8px rgba(0, 0, 0, 0.2); transform: translateY(-1px); }} button {{ width: 100%; padding: 14px 28px; border: none; border-radius: 12px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff; font-weight: 600; font-size: 15px; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2); position: relative; overflow: hidden; }} button::before {{ content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.2) 50%, transparent 100%); transform: translateX(-100%); transition: transform 0.6s; }} button:hover {{ transform: translateY(-2px); box-shadow: 0 6px 25px rgba(102, 126, 234, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.3); }} button:hover::before {{ transform: translateX(100%); }} button:active {{ transform: translateY(0); }} #msg {{ min-height: 28px; margin-top: 15px; color: #fff; font-size: 14px; font-weight: 500; opacity: 0; transition: opacity 0.3s, transform 0.3s; transform: translateY(5px); text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); }} #msg.show {{ opacity: 1; transform: translateY(0); }} .close-btn {{ position: absolute; top: 12px; right: 12px; width: 32px; height: 32px; border-radius: 8px; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.1); color: rgba(255, 255, 255, 0.6); font-size: 18px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; z-index: 10; }} .close-btn:hover {{ background: rgba(255, 59, 48, 0.8); color: #fff; border-color: rgba(255, 59, 48, 0.8); transform: rotate(90deg); }} </style> </head> <body> <div class="container"> <div class="drag-handle" id="dragHandle"> <div class="close-btn" onclick="pywebview.api.send_text('')">×</div> <div class="header">Security Verification</div> </div> <div class="img-wrapper"> <img src="data:image/png;base64,{img64}" alt="Captcha"> </div> <input id="txt" type="text" placeholder="Enter the text you see..." autofocus> <button onclick="send()">Verify & Continue</button> <div id="msg"></div> </div> <script> const dragHandle = document.getElementById('dragHandle'); let isDragging = false; let offsetX, offsetY; let animationId = null; let targetX, targetY; dragHandle.addEventListener('mousedown', function(e) {{ if (e.target.closest('.close-btn')) return; isDragging = true; offsetX = e.clientX; offsetY = e.clientY; e.preventDefault(); }}); document.addEventListener('mousemove', function(e) {{ if (!isDragging) return; targetX = e.screenX - offsetX; targetY = e.screenY - offsetY; if (!animationId) {{ animationId = requestAnimationFrame(updatePosition); }} }}); function updatePosition() {{ try {{ pywebview.api.move_window(targetX, targetY); }} catch(err) {{ // Ignore errors during drag }} animationId = null; }} document.addEventListener('mouseup', function() {{ isDragging = false; if (animationId) {{ cancelAnimationFrame(animationId); animationId = null; }} }}); document.getElementById('txt').addEventListener('keypress', function(e) {{ if (e.key === 'Enter') {{ send(); }} }}); async function send() {{ let t = document.getElementById('txt').value.trim(); if (!t) {{ flash("⚠️ Please enter the captcha text", '#ff6b6b'); return; }} await pywebview.api.send_text(t); flash("✓ Verified successfully!", '#51cf66'); document.getElementById('txt').value = ''; }} function flash(m, c) {{ let e = document.getElementById('msg'); e.textContent = m; e.style.color = c; e.classList.add('show'); setTimeout(() => e.classList.remove('show'), 2000); }} </script> </body> </html> """
+    html = f"""
+    <html>
+    <head>
+    <meta charset="utf-8">
+    <style>
+    * {{ margin: 0; padding: 0; box-sizing: border-box; }}
+    body {{ font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%); display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; user-select: none; }}
+    body::before {{ content: ''; position: absolute; width: 200%; height: 200%; background: radial-gradient(circle, rgba(94,156,255,0.1) 1px, transparent 1px); background-size: 50px 50px; animation: drift 20s linear infinite; pointer-events: none; }}
+    @keyframes drift {{ from {{ transform: translate(0, 0); }} to {{ transform: translate(50px, 50px); }} }}
+    .container {{ position: relative; background: rgba(15, 15, 35, 0.7); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); padding: 35px; border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1); text-align: center; animation: slideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); cursor: grab; }}
+    .container:active {{ cursor: grabbing; }}
+    @keyframes slideIn {{ from {{ opacity: 0; transform: translateY(-30px) scale(0.9); }} to {{ opacity: 1; transform: translateY(0) scale(1); }} }}
+    .header {{ color: #fff; font-size: 18px; font-weight: 600; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); letter-spacing: 0.5px; margin-bottom: 20px; }}
+    .img-wrapper {{ position: relative; margin-bottom: 25px; overflow: hidden; border-radius: 16px; }}
+    img {{ width: 100%; border-radius: 16px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); animation: glow 3s ease-in-out infinite; transition: transform 0.3s; }}
+    @keyframes glow {{ 0%, 100% {{ filter: drop-shadow(0 0 8px rgba(94,156,255,0.4)); }} 50% {{ filter: drop-shadow(0 0 20px rgba(156,94,255,0.6)); }} }}
+    input {{ width: 100%; padding: 15px 18px; border-radius: 12px; border: 2px solid rgba(255, 255, 255, 0.1); background: rgba(0, 0, 0, 0.3); color: #fff; font-size: 15px; margin-bottom: 18px; outline: none; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.2); }}
+    input::placeholder {{ color: rgba(255, 255, 255, 0.4); }}
+    input:focus {{ border-color: rgba(94, 156, 255, 0.8); background: rgba(0, 0, 0, 0.5); box-shadow: 0 0 0 4px rgba(94, 156, 255, 0.1), inset 0 2px 8px rgba(0, 0, 0, 0.2); transform: translateY(-1px); }}
+    button {{ width: 100%; padding: 14px 28px; border: none; border-radius: 12px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff; font-weight: 600; font-size: 15px; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2); position: relative; overflow: hidden; }}
+    button::before {{ content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.2) 50%, transparent 100%); transform: translateX(-100%); transition: transform 0.6s; }}
+    button:hover {{ transform: translateY(-2px); box-shadow: 0 6px 25px rgba(102, 126, 234, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.3); }}
+    button:hover::before {{ transform: translateX(100%); }}
+    button:active {{ transform: translateY(0); }}
+    #msg {{ min-height: 28px; margin-top: 15px; color: #fff; font-size: 14px; font-weight: 500; opacity: 0; transition: opacity 0.3s; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); }}
+    .close-btn {{ position: absolute; top: 12px; right: 12px; width: 32px; height: 32px; border-radius: 8px; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.1); color: rgba(255, 255, 255, 0.6); font-size: 18px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; z-index: 10; }}
+    .close-btn:hover {{ background: rgba(255, 59, 48, 0.8); color: #fff; border-color: rgba(255, 59, 48, 0.8); transform: rotate(90deg); }}
+    </style>
+    </head>
+    <body>
+    <div class="container" id="win">
+        <div class="close-btn" onclick="pywebview.api.send_text('')">×</div>
+        <div class="header">Security Verification</div>
+        <div class="img-wrapper">
+            <img src="data:image/png;base64,{img64}" alt="Captcha">
+        </div>
+        <input id="txt" type="text" placeholder="Enter the text you see..." autofocus>
+        <button onclick="send()">Verify & Continue</button>
+        <div id="msg"></div>
+    </div>
+    <script>
+    const win=document.getElementById('win');
+    let offsetX,offsetY,drag=false;
+    win.addEventListener('mousedown',e=>{{drag=true;offsetX=e.clientX-win.offsetLeft;offsetY=e.clientY-win.offsetTop;}});
+    document.addEventListener('mouseup',()=>{{drag=false;}});
+    document.addEventListener('mousemove',e=>{{if(drag){{win.style.position='absolute';win.style.left=(e.clientX-offsetX)+'px';win.style.top=(e.clientY-offsetY)+'px';}}}});
+    document.getElementById('txt').addEventListener('keypress', function(e) {{ if (e.key === 'Enter') {{ send(); }} }});
+    async function send(){{
+        let t=document.getElementById('txt').value.trim();
+        if(!t){{flash("⚠️ Please enter the captcha text",'#ff6b6b');return;}}
+        await pywebview.api.send_text(t);
+        flash("✓ Verified successfully!",'#51cf66');
+        document.getElementById('txt').value='';
+    }}
+    function flash(m,c){{
+        let e=document.getElementById('msg'); e.textContent=m; e.style.color=c; e.style.opacity=1;
+        setTimeout(()=>e.style.opacity=0,2000);
+    }}
+    </script>
+    </body>
+    </html>
+    """
 
-    win = webview.create_window(
-        title, html=html, width=480, height=600,
-        frameless=True, resizable=False, js_api=api, on_top=True
-    )
+    win = webview.create_window(title, html=html, width=450, height=550, frameless=True, resizable=False, js_api=api, on_top=True)
     api.win = win
     webview.start()
     return api.text
