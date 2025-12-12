@@ -6,14 +6,14 @@
 
 **Fastest & Most Stable Zefoy TikTok Bot Ever Made – 2025 Edition**
 
-[![Stars](https://img.shields.io/github/stars/5k-omar/Zefoy-Bot-Reverse?style=for-the-badge&logo=github&logoColor=white&labelColor=24292e&color=FFD700)](https://github.com/5k-omar/Zefoy-Bot-Reverse/stargazers)
-[![Forks](https://img.shields.io/github/forks/5k-omar/Zefoy-Bot-Reverse?style=for-the-badge&logo=github&logoColor=white&labelColor=24292e&color=28a745)](https://github.com/5k-omar/Zefoy-Bot-Reverse/fork)
+[![Stars](https://img.shields.io/github/stars/5k-omar/Zefoy-Reverse?style=for-the-badge&logo=github&logoColor=white&labelColor=24292e&color=FFD700)](https://github.com/5k-omar/Zefoy-Reverse/stargazers)
+[![Forks](https://img.shields.io/github/forks/5k-omar/Zefoy-Reverse?style=for-the-badge&logo=github&logoColor=white&labelColor=24292e&color=28a745)](https://github.com/5k-omar/Zefoy-Reverse/fork)
 [![Python](https://img.shields.io/badge/Python-3.9+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
-[![Version](https://img.shields.io/badge/Version-1.0.0-blue?style=for-the-badge)](https://github.com/5k-omar/Zefoy-Bot-Reverse/releases)
+[![Version](https://img.shields.io/badge/Version-1.0.0-blue?style=for-the-badge)](https://github.com/5k-omar/Zefoy-Reverse/releases)
 
-**Cloudflare bypassed • Beautiful captcha GUI • 100% working as of December 2025**
+**Cloudflare bypassed • Beautiful captcha GUI • 100% working as of (12/12/2025)**
 
-[Star this repo](https://github.com/5k-omar/Zefoy-Bot-Reverse) • [Documentation](https://github.com/5k-omar/Zefoy-Bot-Reverse/blob/main/REVERSE_README.md) • [Join Discord](https://discord.gg/tcnksFMCR9)
+[Star this repo](https://github.com/5k-omar/Zefoy-Reverse) • [Documentation](https://github.com/5k-omar/Zefoy-Reverse/blob/main/REVERSE_README.md) • [Join Discord](https://discord.gg/tcnksFMCR9)
 
 </div>
 
@@ -75,13 +75,19 @@ Support this project by starring the repository to unlock exclusive features:
 
 ```bash
 # Clone the repository
-git clone https://github.com/5k-omar/Zefoy-Bot-Reverse.git
+git clone https://github.com/5k-omar/Zefoy-Reverse.git
 
-# Navigate to directory
-cd Zefoy-Bot-Reverse
+# Navigate to the directory
+cd Zefoy-Reverse
 
-# Run the bot (auto-installs dependencies)
-python boost.py
+# Install all dependencies automatically in one line
+pip install beautifulsoup4 httpx inquirer tls-client requests-toolbelt Pillow pywebview
+
+# OR, install dependencies using the provided requirements.txt
+# pip install -r requirements.txt
+
+# Run the bot
+python main.py
 ```
 
 **Note:** First run automatically installs everything. Just solve one captcha, then unlimited boosts after that.
@@ -122,7 +128,7 @@ Want real speed with zero hassle?
 
 **Interested in the technical details?** Check out the full reverse engineering guide:
 
-📄 [**Read the Full Write-up**](https://github.com/5k-omar/Zefoy-Bot-Reverse/blob/main/REVERSE_README.md)
+📄 [**Read the Full Write-up**](https://github.com/5k-omar/Zefoy-Reverse/blob/main/REVERSE_README.md)
 
 📄 [**Tampermonkey Bypass Anti-debug Script**](https://greasyfork.org/en/scripts/558730-zefoy-com-full-anti-debug-devtools-bypass)
 
@@ -145,7 +151,7 @@ Want real speed with zero hassle?
 
 ### Love this project? Show your support!
 
-[![Star History](https://img.shields.io/github/stars/5k-omar/Zefoy-Bot-Reverse?style=social&label=Star%20This%20Repo)](https://github.com/5k-omar/Zefoy-Bot-Reverse)
+[![Star History](https://img.shields.io/github/stars/5k-omar/Zefoy-Reverse?style=social&label=Star%20This%20Repo)](https://github.com/5k-omar/Zefoy-Reverse)
 
 **Join our Discord community for:**
 - 🔔 Real-time updates
