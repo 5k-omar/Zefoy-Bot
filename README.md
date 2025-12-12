@@ -101,9 +101,8 @@ Want real speed with zero hassle?
 | Feature | Free Version | PRO Version |
 |---------|:------------:|:-----------:|
 | Views per 3 minutes | ~500 | **10,000** |
-| Captcha solving | Manual | **100% Automated** |
+| Captcha solving | Manual | **No Captcha** |
 | Format | Python script | Standalone EXE |
-| License | One-time | **Lifetime** |
 
 #### PRO Features:
 - 10,000 views in 3 minutes (Lifetime license)
