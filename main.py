@@ -140,7 +140,7 @@ def Login():
         if captcha_img.status_code!=200: log.error("Failed to get captcha"); sys.exit()
         image_bytes = captcha_img.content
 
-    log.info("Pls Input Captcha in win")
+    log.info("Please enter the captcha in the window and press Send")
     captcha_text = ImgToWinFromBytes(image_bytes)
 
     soup = BeautifulSoup(response.text,"html.parser")
