@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 import httpx
 import inquirer
 import tls_client
-from Log import Logger
+from log import Logger
 import Reverse
 from requests_toolbelt.multipart.encoder import MultipartEncoder
 from PIL import Image, ImageFilter, ImageEnhance
