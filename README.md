@@ -6,8 +6,8 @@
 
 **Fastest & Most Stable Zefoy TikTok Bot Ever Made – 2025 Edition**
 
-[![Stars](https://img.shields.io/github/stars/5k-omar/Zefoy-Bot?style=for-the-badge&logo=github&logoColor=white&labelColor=24292e&color=FFD700)](https://github.com/5k-omar/Zefoy-Bot/stargazers)
-[![Forks](https://img.shields.io/github/forks/5k-omar/Zefoy-Bot?style=for-the-badge&logo=github&logoColor=white&labelColor=24292e&color=28a745)](https://github.com/5k-omar/Zefoy-Bot/fork)
+[![GitHub Stars](https://img.shields.io/github/stars/5k-omar/Zefoy-Bot?style=for-the-badge&logo=github&color=FFD700)](https://github.com/5k-omar/Zefoy-Bot/stargazers)
+[![GitHub Forks](https://img.shields.io/github/forks/5k-omar/Zefoy-Bot?style=for-the-badge&logo=github&color=28a745)](https://github.com/5k-omar/Zefoy-Bot/network/members)
 [![Python](https://img.shields.io/badge/Python-3.9+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
 [![Version](https://img.shields.io/badge/Version-1.0.0-blue?style=for-the-badge)](https://github.com/5k-omar/Zefoy-Bot/releases)
 
@@ -159,7 +159,7 @@ Want real speed with zero hassle?
 - 🎉 Feature announcements
 - 🤝 Connect with other users
 
-[![Discord](https://img.shields.io/discord/YOUR_DISCORD_ID?color=7289DA&label=Join%20Discord&logo=discord&logoColor=white&style=for-the-badge)](https://discord.gg/tcnksFMCR9)
+[![Discord](https://img.shields.io/badge/Join-Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/tcnksFMCR9)
 
 ---
 
