@@ -116,32 +116,92 @@ def cryptojs_aes_decrypt(data: dict) -> str:
 ### IV. Realistic Fingerprint Generator (Spoofed)
 
 ```python
-def generate_fingerprint() -> str:
-    fp = {
+def generate_fingerprint():
+    return json.dumps({
         "deviceInfo": {
-            "cpuCores": random.choice([8, 12, 16]),
-            "deviceMemoryGB": random.choice([8, 16]),
+            "cpuCores": 4,
+            "cpuLoad": random.randint(3, 12),
+            "deviceMemoryGB": 8,
             "platform": "Win32",
+            "maxTouchPoints": 0,
+            "msMaxTouchPoints": "Not Supported",
             "gpu": {
                 "vendor": "Google Inc. (NVIDIA)",
-                "renderer": "ANGLE (NVIDIA GeForce RTX 3060 Direct3D11 vs_5_0 ps_5_0)"
+                "renderer": "ANGLE (NVIDIA, NVIDIA Quadro P600 (0x00001CBC) Direct3D11 vs_5_0 ps_5_0, D3D11)"
             },
-            "battery": {"charging": True, "level": round(random.uniform(0.6, 1.0), 2)},
+            "battery": {
+                "charging": True,
+                "level": 1.0,
+                "chargingTime": 0,
+                "dischargingTime": None
+            },
+            "stylusDetection": "Yes",
             "touchSupport": "No"
         },
         "browserInfo": {
-            "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/137.0 Safari/537.36",
+            "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
             "timezone": "Africa/Cairo",
+            "timezoneOffset": -120,
+            "localeDateTime": time.strftime("%m/%d/%Y, %I:%M:%S %p"),
+            "localUnixTime": int(time.time()),
+            "calendar": "gregory",
+            "day": "numeric",
+            "locale": "en-US",
+            "month": "numeric",
+            "numberingSystem": "latn",
+            "year": "numeric",
+            "appName": "Netscape",
+            "appVersion": "5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+            "vendor": "Google Inc.",
             "language": "en-US",
+            "languages": ["en-US", "en"],
+            "cookieEnabled": True,
+            "onlineStatus": "Online",
+            "javaEnabled": False,
+            "doNotTrack": None,
+            "referrerHeader": "None",
+            "httpsConnection": "Yes",
+            "historyLength": random.randint(3, 15),
+            "mimeTypes": random.choice([2, 3, 4, 5]),
+            "plugins": random.choice([4, 5, 6]),
             "webdriver": False,
-            "isBot": "No"
+            "pageVisibility": "visible",
+            "isBot": "No",
+            "featuresSupported": {
+                "geolocation": "Yes", "serviceWorker": "Yes", "localStorage": "Yes",
+                "sessionStorage": "Yes", "indexedDB": "Yes", "notifications": "Yes",
+                "notificationsFirebase": "default", "clipboard": "Yes", "pushAPI": "Yes",
+                "webRTC": "Yes", "gamepadAPI": "Yes", "speechSynthesis": "Yes",
+                "webGL": "Yes", "vibrationAPI": "Yes", "deviceMotion": "Yes",
+                "deviceOrientation": "Yes", "wakeLock": "Yes", "serial": "Yes",
+                "usb": "Yes", "networkInformation": "Yes", "screenCapture": "Yes",
+                "fullscreenAPI": "Yes", "pictureInPicture": "Yes"
+            }
         },
         "screenInfo": {
-            "width": 1920, "height": 1080,
-            "colorDepth": 24, "devicePixelRatio": 1
+            "width": 1920, "height": 1080, "colorDepth": 24, "pixelDepth": 24,
+            "devicePixelRatio": 1, "orientation": "landscape-primary",
+            "screenOrientationAngle": 0, "availableWidth": 1920, "availableHeight": 1040,
+            "screenLeft": 0, "screenTop": 0, "outerWidth": 1920, "outerHeight": 1040,
+            "innerWidth": 1920, "innerHeight": 953
+        },
+        "otherData": {
+            "mouseAvailable": "Yes", "keyboardAvailable": "Yes",
+            "bluetoothSupport": "Yes", "usbSupport": "Yes", "gamepadSupport": "Yes",
+            "incognitoMode": "No"
+        },
+        "storageInfo": {
+            "localStorage": random.randint(2, 8),
+            "sessionStorage": 0,
+            "indexedDB": "Available",
+            "cacheStorage": "Available",
+            "storageEstimate": {
+                "quota": 161258822860,
+                "usage": random.randint(5000, 50000),
+                "usageDetails": {"indexedDB": random.randint(5000, 30000)}
+            }
         }
-    }
-    return json.dumps(fp, separators=(",", ":"))
+    }, separators=(",", ":"))
 ```
 
 Then encrypt it:
@@ -164,10 +224,24 @@ One of the most annoying parts — heavily obfuscated.
 **My clean reimplementation:**
 
 ```python
-def encode_state_string() -> str:
-    s = f"x={random.randint(100,1800)}&y={random.randint(100,900)}&d={random.uniform(0.01,1.2):.3f}&g=False"
-    xored = "".join(chr(ord(c) ^ ((i % 5) + 77)) for i, c in enumerate(s))
-    final = base64.b64encode(("K9x!" + xored + "K9x!").encode()).decode()[::-1]
+def encode_state_string():
+    points = []
+    num_points = random.randint(12, 28)
+    
+    for i in range(num_points):
+        x = random.randint(50, 1900)
+        y = random.randint(50, 1000)
+        d = round(random.uniform(0.05, 2.8), 4)
+        g = "True" if random.random() > 0.65 else "False"
+        points.append(f"x={x}&y={y}&d={d}&g={g}")
+    
+    raw = "|".join(points)
+    xored = "".join(chr(ord(c) ^ (i % 5 + 77)) for i, c in enumerate(raw))
+    wrapped = "K9x!" + xored + "K9x!"
+    encoded = base64.b64encode(wrapped.encode()).decode()
+    final = encoded[::-1]
+    final += "=" * ((4 - len(final) % 4) % 4)
+    
     return final
 ```
 
@@ -177,7 +251,18 @@ This string goes into the hidden input field (or all `.input` fields).
 
 ![footer](https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=120&section=footer)
 ```
-
-
 Enjoy with Fu*k Zefoy.
 ```
+
+## **Disclaimer**
+
+This bot automates interactions with third-party services. Use at your own risk. The author is not responsible for any consequences of using this software.
+
+---
+
+## **Disclaimer**
+
+> [!WARNING] 
+This project is for **educational purposes only** and is not affiliated with TikTok or Zefoy. Users are responsible for ensuring compliance with TikTok's terms of service. Use responsibly and ethically.
+
+---
