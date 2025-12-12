@@ -120,13 +120,11 @@ Want real speed with zero hassle?
 
 ## 🔬 How I Fully Reversed Zefoy
 
-This tool uses **100% clean reverse-engineered encryption** from Zefoy's frontend.
-
 **Interested in the technical details?** Check out the full reverse engineering guide:
 
 📄 [**Read the Full Write-up**](https://github.com/5k-omar/Zefoy-Bot-Reverse/blob/main/REVERSE_README.md)
 
-Learn how I bypassed Cloudflare, decrypted API calls, and built a request-based automation system.
+📄 [**Tampermonkey Bypass Anti-debug Script**](https://greasyfork.org/en/scripts/558730-zefoy-com-full-anti-debug-devtools-bypass)
 
 ---
 
@@ -164,3 +162,16 @@ Learn how I bypassed Cloudflare, decrypted API calls, and built a request-based 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=120&section=footer"/>
 
 </div>
+
+## **Disclaimer**
+
+This bot automates interactions with third-party services. Use at your own risk. The author is not responsible for any consequences of using this software.
+
+---
+
+## **Disclaimer**
+
+> [!WARNING] 
+This project is for **educational purposes only** and is not affiliated with TikTok or Zefoy. Users are responsible for ensuring compliance with TikTok's terms of service. Use responsibly and ethically.
+
+---
