@@ -128,13 +128,13 @@ def ImgToWinFromBytes(image_bytes, title="Enter Captcha") -> str:
     return api.text
 
 SERVICES = {
-    "followers": "c2VuZF9mb2xsb3dlcnNfdGlrdG9r",
+    "followers": "c2VuZF9mb2xsb3dlcnNfdGlrdG9r", # It always does not work
     "hearts": "c2VuZE9nb2xsb3dlcnNfdGlrdG9r",
-    "comments_hearts": "c2VuZC9mb2xsb3dlcnNfdGlrdG9r",
+    "comments_hearts": "c2VuZC9mb2xsb3dlcnNfdGlrdG9r", # After 30 starts with gui for select comment
     "views": "c2VuZC9mb2xeb3dlcnNfdGlrdG9V",
     "shares": "c2VuZC9mb2xsb3dlcnNfdGlrdG9s",
     "favorites": "c2VuZF9mb2xsb3dlcnNfdGlrdG9L",
-    "livestream": "c2VuZC9mb2xsb3dlcnNfdGlrdGLL"
+    "livestream": "c2VuZC9mb2xsb3dlcnNfdGlrdGLL" # It always does not work
 }
 
 FINGERPRINT_CACHE = None
@@ -193,7 +193,7 @@ def Login():
         if captcha_img.status_code!=200: log.error("Failed to get captcha"); sys.exit()
         image_bytes = captcha_img.content
 
-    log.info("Pls Input Captcha in win")
+    log.info("Please enter the captcha in the window and press Send")
     captcha_text = ImgToWinFromBytes(image_bytes)
 
     soup = BeautifulSoup(response.text,"html.parser")
