@@ -310,12 +310,8 @@ def Boost(video_form: str, service_key: str, video_url: str):
     if "Please try again later. Server too busy" in decoded1:
         log.error("Server is too busy - please try again later")
         time.sleep(random.uniform(30, 60))
-        return False
+        return False    
     
-    InvalidUrl = re.search(r'<button[^>]*>\s*<i[^>]*></i>\s*([\+\d][\d,]*)\s*</button>', r1.text, re.IGNORECASE)
-    if not InvalidUrl or (InvalidUrl and not InvalidUrl.group(1)):
-        log.error("Invalid video URL!")
-        return False
     
     # if "An error occurred. Please try again" in decoded1:
     #     log.error("An error occurred - retrying...")
@@ -392,7 +388,7 @@ def Boost(video_form: str, service_key: str, video_url: str):
     if "Too many requests. Please slow down" in final_decoded:
         log.error("Rate limited!")
         return False
-
+    
     # Check for success patterns ;)
     Views = re.search(r"Successfully\s+(\d+)\s+views sent\.", final_decoded)
     Hearts = re.search(r"(\d+\+?)\s+Hearts successfully sent\.", final_decoded)
