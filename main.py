@@ -21,7 +21,6 @@ RESET = "\033[0m"
 
 logging.getLogger('pywebview').setLevel(logging.CRITICAL)
 
-
 tls_session = tls_client.Session(
     client_identifier="chrome_124",
     random_tls_extension_order=True,
@@ -32,9 +31,12 @@ tls_session = tls_client.Session(
 
 def ImgToWinFromBytes(image_bytes, title="Enter Captcha") -> str:
     buf = BytesIO(image_bytes)
-    img = Image.open(buf).convert("RGB").filter(ImageFilter.MedianFilter(3))
-    img = ImageEnhance.Sharpness(img).enhance(2.0)
-    img.thumbnail((400,300))
+    img = Image.open(buf).convert("L")
+    w, h = img.size
+    img = img.resize((w * 2, h * 2), resample=Image.Resampling.LANCZOS)
+    img = ImageEnhance.Contrast(img).enhance(2.0)
+    img = img.point(lambda p: 255 if p > 140 else 0)
+    img = img.filter(ImageFilter.SHARPEN)
     buf_out = BytesIO()
     img.save(buf_out, format="PNG")
     img64 = base64.b64encode(buf_out.getvalue()).decode()
@@ -126,13 +128,13 @@ def ImgToWinFromBytes(image_bytes, title="Enter Captcha") -> str:
     return api.text
 
 SERVICES = {
-    "followers": "c2VuZF9mb2xsb3dlcnNfdGlrdG9r", # It always does not work
+    "followers": "c2VuZF9mb2xsb3dlcnNfdGlrdG9r",
     "hearts": "c2VuZE9nb2xsb3dlcnNfdGlrdG9r",
-    "comments_hearts": "c2VuZC9mb2xsb3dlcnNfdGlrdG9r", # After 30 starts with gui for select comment
+    "comments_hearts": "c2VuZC9mb2xsb3dlcnNfdGlrdG9r",
     "views": "c2VuZC9mb2xeb3dlcnNfdGlrdG9V",
     "shares": "c2VuZC9mb2xsb3dlcnNfdGlrdG9s",
     "favorites": "c2VuZF9mb2xsb3dlcnNfdGlrdG9L",
-    "livestream": "c2VuZC9mb2xsb3dlcnNfdGlrdGLL" # It always does not work
+    "livestream": "c2VuZC9mb2xsb3dlcnNfdGlrdGLL"
 }
 
 FINGERPRINT_CACHE = None
@@ -191,7 +193,7 @@ def Login():
         if captcha_img.status_code!=200: log.error("Failed to get captcha"); sys.exit()
         image_bytes = captcha_img.content
 
-    log.info("Please enter the captcha in the window and press Send")
+    log.info("Pls Input Captcha in win")
     captcha_text = ImgToWinFromBytes(image_bytes)
 
     soup = BeautifulSoup(response.text,"html.parser")
@@ -219,13 +221,15 @@ def Login():
  
     time.sleep(2)
     check = tls_session.get("https://zefoy.com/", headers=headers)
+
     if 'placeholder="Enter Video URL"' in check.text:
         log.success("Captcha passed! Logged in.")
         return check.text
     else:
         log.error("Captcha failed.")
         print(check.text[:500])
-        sys.exit()
+        return Login()
+
 
 def check_available_services(login_html: str):
     soup = BeautifulSoup(login_html, "html.parser")
@@ -285,6 +289,7 @@ def Boost(video_form: str, service_key: str, video_url: str):
 
     
     r1 = tls_session.post(url, data=data1.to_string(), headers=headers)
+
    
     time.sleep(random.uniform(2, 6))
 
@@ -307,10 +312,15 @@ def Boost(video_form: str, service_key: str, video_url: str):
         time.sleep(random.uniform(30, 60))
         return False
     
-    if "An error occurred. Please try again" in decoded1:
-        log.error("An error occurred - retrying...")
-        time.sleep(5)
+    InvalidUrl = re.search(r'<button[^>]*>\s*<i[^>]*></i>\s*([\+\d][\d,]*)\s*</button>', final_decoded, re.IGNORECASE)
+    if not InvalidUrl or (InvalidUrl and not InvalidUrl.group(1)):
+        log.error("Invalid video URL!")
         return False
+    
+    # if "An error occurred. Please try again" in decoded1:
+    #     log.error("An error occurred - retrying...")
+    #     time.sleep(5)
+    #     return False
     
     if "Too many requests. Please slow down" in decoded1:
         log.error("Rate limited - slowing down...")
@@ -381,11 +391,6 @@ def Boost(video_form: str, service_key: str, video_url: str):
     
     if "Too many requests. Please slow down" in final_decoded:
         log.error("Rate limited!")
-        return False
-
-    InvalidUrl = re.search(r'<button[^>]*>\s*<i[^>]*></i>\s*([\d,]+)?\s*</button>', final_decoded, re.IGNORECASE)
-    if not InvalidUrl or (InvalidUrl and not InvalidUrl.group(1)):
-        log.error("Invalid video URL!")
         return False
 
     # Check for success patterns ;)
