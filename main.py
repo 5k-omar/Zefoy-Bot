@@ -312,7 +312,7 @@ def Boost(video_form: str, service_key: str, video_url: str):
         time.sleep(random.uniform(30, 60))
         return False
     
-    InvalidUrl = re.search(r'<button[^>]*>\s*<i[^>]*></i>\s*([\+\d][\d,]*)\s*</button>', final_decoded, re.IGNORECASE)
+    InvalidUrl = re.search(r'<button[^>]*>\s*<i[^>]*></i>\s*([\+\d][\d,]*)\s*</button>', r1.text, re.IGNORECASE)
     if not InvalidUrl or (InvalidUrl and not InvalidUrl.group(1)):
         log.error("Invalid video URL!")
         return False
