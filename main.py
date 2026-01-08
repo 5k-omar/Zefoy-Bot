@@ -12,7 +12,15 @@ import Reverse
 from requests_toolbelt.multipart.encoder import MultipartEncoder
 from PIL import Image, ImageFilter, ImageEnhance
 from io import BytesIO
-import webview
+import os
+import platform
+
+try:
+    import webview
+    WEBVIEW_AVAILABLE = True
+except ImportError:
+    WEBVIEW_AVAILABLE = False
+    # pywebview not available or not support python version
 
 log = Logger()
 GREEN = "\033[32m"
@@ -30,6 +38,24 @@ tls_session = tls_client.Session(
 )
 
 def ImgToWinFromBytes(image_bytes, title="Enter Captcha") -> str:
+    if not WEBVIEW_AVAILABLE:
+        captcha_path = "captcha.png"
+        with open(captcha_path, "wb") as f:
+            f.write(image_bytes)
+        
+        sys_name = platform.system()
+        try:
+            if sys_name == "Windows":
+                os.startfile(captcha_path)
+            elif sys_name == "Darwin":
+                os.system(f"open {captcha_path}")
+            else:
+                os.system(f"xdg-open {captcha_path}")
+        except:
+            pass
+        
+        return input(" -> Enter Captcha: ").strip()
+        
     buf = BytesIO(image_bytes)
     img = Image.open(buf).convert("L")
     w, h = img.size
